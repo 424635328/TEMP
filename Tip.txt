@@ -1,0 +1,406 @@
+好的，根据你提供的文档，我为你整理一份详细的安装步骤。
+
+总体流程：
+
+在你的物理电脑上安装虚拟机软件 VMware Workstation。
+
+下载 Ubuntu 18.04 LTS 桌面版镜像。
+
+在 VMware Workstation 中创建虚拟机并安装 Ubuntu 18.04 LTS。
+
+在安装好的 Ubuntu 虚拟机中安装 ROS Melodic Morenia。
+
+第一部分：安装 VMware Workstation
+
+这一步是在你的物理电脑（通常是 Windows 或 Linux）上操作。
+
+下载 VMware Workstation：
+
+打开浏览器，访问 VMware 官网：https://www.vmware.com/cn.html
+
+导航到“产品” > “Workstation Pro” 或 “Workstation Player”（Player 是免费版，功能较少，Pro 是收费版，功能强大，通常学校或研究机构会有授权）。根据你的需求选择。
+
+下载适用于你操作系统的安装程序。
+
+安装 VMware Workstation：
+
+运行下载的安装程序。
+
+按照安装向导的提示进行安装（通常是点击“下一步”，接受许可协议等）。
+
+安装完成后，可能需要重启电脑。
+
+如果你下载的是 Workstation Pro，首次启动时可能需要输入许可证密钥。
+
+第二部分：下载 Ubuntu 18.04 LTS 桌面版镜像
+
+这一步也是在你的物理电脑上操作。ROS Melodic 推荐与 Ubuntu 18.04 LTS (Bionic Beaver) 配合使用。
+
+选择一个镜像源下载 Ubuntu 18.04 LTS 桌面版 (Desktop) 的 ISO 文件：
+
+官方网站： https://ubuntu.com/download/desktop (可能需要找到旧版本链接，18.04 LTS 也可在 http://releases.ubuntu.com/18.04/ 找到 ubuntu-18.04.x-desktop-amd64.iso)
+
+网易镜像： http://mirrors.163.com/ubuntu-releases/18.04/
+
+中科大镜像： http://mirrors.ustc.edu.cn/ubuntu-releases/18.04/
+
+阿里云镜像： http://mirrors.aliyun.com/ubuntu-releases/18.04/
+
+清华大学镜像： https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/18.04/
+
+选择一个 .iso 文件下载，例如 ubuntu-18.04.6-desktop-amd64.iso。
+
+第三部分：在 VMware Workstation 中创建虚拟机并安装 Ubuntu 18.04 LTS
+
+这一步是在你安装好的 VMware Workstation 软件内操作。
+
+打开 VMware Workstation。
+
+创建新的虚拟机：
+
+点击“文件(File)” > “新建虚拟机(New Virtual Machine...)” 或直接点击主界面的“创建新的虚拟机”。
+
+选择“典型(推荐)(Typical)”配置，点击“下一步(Next)”。
+
+选择“安装程序光盘映像文件(iso)(I)”，然后点击“浏览(Browse...)”，找到你刚刚下载的 ubuntu-18.04.x-desktop-amd64.iso 文件，点击“下一步(Next)”。
+
+个性化 Linux： 填写你的全名、用户名（例如 rosuser）和密码。点击“下一步(Next)”。
+
+虚拟机名称和位置： 给你的虚拟机起个名字（例如 Ubuntu_ROS_Melodic），选择一个存储位置（确保该磁盘分区有足够空间，至少 40-60GB）。点击“下一步(Next)”。
+
+指定磁盘容量：
+
+最大磁盘大小：建议至少 40GB，如果空间充裕可以给 60GB 或更多。
+
+选择“将虚拟磁盘存储为单个文件”或“将虚拟磁盘拆分成多个文件”（单个文件性能稍好，多个文件方便移动）。点击“下一步(Next)”。
+
+准备创建虚拟机：
+
+重要： 点击“自定义硬件(Customize Hardware...)”。
+
+内存(Memory)： 至少分配 4GB (4096MB) 内存，推荐 8GB 或更多（如果你的物理机内存充足）。
+
+处理器(Processors)： 至少分配 2 个处理器内核，推荐 4 个或更多（如果你的物理机CPU支持）。
+
+网络适配器(Network Adapter)： 通常选择 "NAT" 模式即可。
+
+显示器(Display)： 可以勾选“加速3D图形(Accelerate 3D graphics)”（如果你的显卡支持并且后续会用到图形化界面如 Rviz、Gazebo）。
+
+完成后点击“关闭(Close)”。
+
+确保“创建后开启此虚拟机(Power on this virtual machine after creation)”被勾选。
+
+点击“完成(Finish)”。
+
+Ubuntu 自动安装：
+
+虚拟机将启动并开始自动安装 Ubuntu。这个过程可能需要一些时间。VMware 的 "Easy Install" 功能会自动完成大部分安装步骤。
+
+安装过程中，它会自动安装 VMware Tools，这对于虚拟机和主机之间的交互（如共享剪贴板、自动调整屏幕分辨率等）非常重要。
+
+首次登录 Ubuntu：
+
+安装完成后，虚拟机会重启。使用你之前设置的用户名和密码登录 Ubuntu 系统。
+
+可能会有一些首次使用的引导设置，按需配置即可。
+
+（可选但推荐）更新 Ubuntu 系统：
+
+打开终端（快捷键 Ctrl + Alt + T）。
+
+输入以下命令更新软件包列表和已安装的软件包：
+
+sudo apt update
+sudo apt full-upgrade -y
+
+
+完成后可能需要重启：sudo reboot
+
+第四部分：在 Ubuntu 虚拟机中安装 ROS Melodic Morenia
+
+这一步是在你刚刚安装好的 Ubuntu 虚拟机内部操作。
+
+配置 Ubuntu 的软件源 (sources.list) - 使用国内镜像加速下载：
+
+打开终端 (Ctrl + Alt + T)。
+
+备份当前的源列表文件：
+
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+编辑源列表文件，这里以清华大学镜像为例（文档中提供）：
+
+sudo nano /etc/apt/sources.list
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+删除文件内所有原有内容，然后复制粘贴以下内容：
+
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+
+deb http://security.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
+# deb-src http://security.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
+
+# 预发布软件源，不建议启用
+# deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+# # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Text
+IGNORE_WHEN_COPYING_END
+
+保存文件并退出 (Ctrl + X，然后按 Y，再按 Enter)。
+
+更新软件包列表：
+
+sudo apt update
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+配置 ROS 的软件源：
+
+文档提供了两个选项，官方源和中科大镜像源。推荐使用国内镜像源：
+
+sudo sh -c '. /etc/lsb-release && echo "deb http://mirrors.ustc.edu.cn/ros/ubuntu/ $DISTRIB_CODENAME main" > /etc/apt/sources.list.d/ros-latest.list'
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+如果想用官方源 (可能会慢)：
+
+# sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+添加 ROS 密钥：
+
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+如果上述命令因网络问题失败，可以尝试更换密钥服务器，例如：
+
+# sudo apt-key adv --keyserver 'hkp://pgp.mit.edu:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+# sudo apt-key adv --keyserver 'hkp://keys.gnupg.net:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+再次更新软件包列表：
+
+sudo apt update
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+安装 ROS Melodic (Desktop-Full)：
+
+这将安装 ROS 核心包、rqt、rviz、通用机器人库、2D/3D 模拟器、导航和感知包等。
+
+sudo apt install ros-melodic-desktop-full -y
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+这个过程会下载很多软件包，需要较长时间，请耐心等待。-y 参数会自动确认安装。
+
+安装 ROS 依赖工具和编译工具：
+
+sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential -y
+sudo apt install python3-rosdep -y
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+注意：python-rosdep 是 ROS Melodic 主要使用的，python3-rosdep 文档中也提到了，可能为特定 Python 3 包或未来兼容性准备。
+
+初始化 rosdep：
+
+rosdep 用于安装 ROS 包的系统依赖。
+
+sudo rosdep init
+rosdep update
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+重要：rosdep update 步骤经常因为网络问题（特别是国内）失败。 如果遇到问题，请参考下一步的解决方案。
+
+解决 rosdep update 网络问题（如果上一步失败）：
+
+文档中提供了一个解决方案，使用 Gitee 上的脚本：
+
+首先确保安装了 git：
+
+sudo apt install git -y
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+克隆仓库：
+
+git clone https://gitee.com/erzhu2/rosdep_solve.git
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+进入目录并执行脚本：
+
+cd rosdep_solve
+sudo sh replace_erzhu2_python2.7.sh
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+脚本执行成功后，再次尝试初始化和更新 rosdep：
+
+sudo rosdep init  # 如果之前init部分成功，这步可能提示已存在，可以忽略错误或先删除 /etc/ros/rosdep/sources.list.d/20-default.list 再执行
+rosdep update
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+如果 sudo rosdep init 提示文件已存在，可以先 sudo rm /etc/ros/rosdep/sources.list.d/20-default.list 再执行 sudo rosdep init。
+
+配置 ROS环境变量：
+
+将 ROS 的环境变量脚本添加到你的 .bashrc 文件中，这样每次打开新的终端时都会自动加载 ROS 环境。
+
+echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+source ~/.bashrc 命令使更改在当前终端立即生效。
+
+测试 ROS 安装 - 运行 roscore：
+
+打开一个新的终端，输入：
+
+roscore
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+如果安装成功，你会看到类似文档中提供的日志输出，包含 started core service [/rosout] 等信息。
+
+按 Ctrl + C 可以停止 roscore。
+
+测试 ROS 安装 - 运行小乌龟示例 (Turtlesim)：
+
+确保 roscore 没有在运行（如果在运行，先 Ctrl+C 关掉）。
+
+你需要打开三个终端窗口。
+
+第一个终端： 启动 ROS Master
+
+roscore
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+第二个终端： 启动乌龟模拟器节点
+
+rosrun turtlesim turtlesim_node
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+此时会弹出一个有小乌龟的图形化窗口。
+
+第三个终端： 启动键盘遥控节点
+
+rosrun turtlesim turtle_teleop_key
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+激活这个终端窗口（点击一下），然后使用键盘上的方向键，你应该能控制第二个窗口中的小乌龟移动。
+
+一些额外提示：
+
+虚拟机快照： 在完成关键步骤后（例如成功安装 Ubuntu 后、成功安装 ROS 后），可以在 VMware 中为虚拟机创建快照。这样如果后续操作出现问题，可以方便地恢复到之前的状态。
+
+耐心： 安装过程，尤其是下载和编译步骤，可能需要很长时间，请保持耐心。
+
+网络： 确保网络连接稳定。
+
+鱼香ROS一键安装： 文档末尾提到了这个工具，它是一个社区开发的脚本，可以简化 ROS 的安装过程。如果你在手动安装过程中遇到很多难以解决的问题，可以考虑尝试它作为备选方案。
+
+如果以上步骤都顺利完成，那么你的 ROS Melodic 环境就搭建好了！祝你实验顺利！
